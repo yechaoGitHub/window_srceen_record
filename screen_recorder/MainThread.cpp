@@ -1,10 +1,10 @@
 #include "MainThread.h"
 #include <process.h>
 
-extern unsigned __stdcall CaptrueThreadFunction(void *ptr_mian_thread_);
+extern void __stdcall CaptrueThreadFunction(void *user_data, uint64_t cur_time);
+extern void __stdcall ShowFps(void *user_data, uint64_t pass_second_ns, uint64_t fps, uint64_t cur_time);
 
-MainThread::MainThread():
-	fps(0)
+MainThread::MainThread()
 {
 
 }
@@ -16,9 +16,6 @@ MainThread::~MainThread()
 
 void MainThread::Initial()
 {
-	fps = 60;
-	quit = false;
-
 	__source = new D3D11Source();
 	__source->Initial();
 
@@ -30,45 +27,25 @@ void MainThread::Initial()
 	par.height = 1080;
 	par.bit_rate = 400000;
 	par.time_base.num = 1;
-	par.time_base.den = 60;
+	par.time_base.den = 25;
 	par.gop_size = 10;
 	par.max_b_frames = 0;
-	par.pix_fmt = AV_PIX_FMT_NV12;
+	par.pix_fmt = AV_PIX_FMT_NV21;
 
 	__encoder->SetEncoderParameter(&par);
+
+	__timer.Initial();
+	__timer.SetLoop(CaptrueThreadFunction, 60, this);
+	__timer.SetSecondPassCallBack(ShowFps, this);
+
+	__convert.Initial();
 
 }
 
 bool MainThread::Run()
 {
-	HANDLE th_ = (HANDLE)_beginthreadex(NULL, 0, CaptrueThreadFunction, this, 0, NULL);
-	if (th_ == INVALID_HANDLE_VALUE)
-		return false;
+	__timer.RunLoop();
 
-	ULONG_PTR mask = __GetFirstCpuMask();
-	SetThreadAffinityMask(th_, mask);
 	return true;
 }
 
-ULONG_PTR MainThread::__GetFirstCpuMask()
-{
-	ULONG_PTR  sys_mask_(0), proc_mask_(0), cpu_mask_(0), compare_(1);
-
-	bool ret_ = ::GetProcessAffinityMask(::GetCurrentProcess(), &sys_mask_, &proc_mask_);
-	if (ret_ == 0)
-		return -1;
-
-	for (int i = 0; i < sizeof(ULONG_PTR) * 8; i++)
-	{
-		if ((proc_mask_ & compare_) != 0)
-		{
-			return compare_;
-		}
-		else
-		{
-			compare_ >= 1;
-		}
-	}
-
-	return -1;
-}

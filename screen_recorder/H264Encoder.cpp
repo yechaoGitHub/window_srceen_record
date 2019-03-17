@@ -63,20 +63,16 @@ bool H264Encoder::SetEncoderParameter(const H264EncodeParameter *parameter)
 	__codec_ctx->bit_rate = parameter->bit_rate;
 	__codec_ctx->pix_fmt = (AVPixelFormat)parameter->pix_fmt;
 
-	av_opt_set(__codec_ctx->priv_data, "preset", "slow", 0);
+	av_opt_set(__codec_ctx->priv_data, "preset", "ultrafast", 0);
 	av_opt_set(__codec_ctx->priv_data, "tune", "zerolatency", 0);
 
 	ret = avcodec_open2(__codec_ctx, __codec, NULL);
 	if (ret < 0)
 		goto error;
 
-
-
 	__frame->format = __codec_ctx->pix_fmt;
 	__frame->width	= __codec_ctx->width;
 	__frame->height = __codec_ctx->height;
-
-
 
 	return true;
 

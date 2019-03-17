@@ -153,21 +153,24 @@
   <ItemGroup>
     <ClInclude Include="D3D11Source.h" />
     <ClInclude Include="EncodeParameter.h" />
+    <ClInclude Include="FpsTimer.h" />
     <ClInclude Include="H264Encoder.h" />
     <ClInclude Include="MainThreadSetting.h" />
     <ClInclude Include="Opengl.h" />
+    <ClInclude Include="OutputYuv.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="MainThread.h" />
     <ClInclude Include="RgbToNv12.cpp" />
     <ClInclude Include="RgbToNv12.h" />
     <ClInclude Include="SimpleShader.h" />
-    <ClInclude Include="Ytimer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CaptureThreadFunction.cpp" />
+    <ClCompile Include="CaptureThreadCallBackFunction.cpp" />
     <ClCompile Include="D3D11Source.cpp" />
+    <ClCompile Include="FpsTimer.cpp" />
     <ClCompile Include="H264Encoder.cpp" />
     <ClCompile Include="Opengl.cpp" />
+    <ClCompile Include="OutputYuv.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -176,7 +179,6 @@
     </ClCompile>
     <ClCompile Include="screen_recorder.cpp" />
     <ClCompile Include="MainThread.cpp" />
-    <ClCompile Include="Ytimer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

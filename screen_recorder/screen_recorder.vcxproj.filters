@@ -24,9 +24,6 @@
     <ClInclude Include="D3D11Source.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Ytimer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MainThreadSetting.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -48,6 +45,12 @@
     <ClInclude Include="SimpleShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="OutputYuv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsTimer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -62,16 +65,19 @@
     <ClCompile Include="MainThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CaptureThreadFunction.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Ytimer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="H264Encoder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Opengl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputYuv.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsTimer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CaptureThreadCallBackFunction.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
