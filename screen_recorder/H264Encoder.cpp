@@ -81,7 +81,7 @@ error:
 	return false;
 }
 
-bool H264Encoder::SetOriginData(uint8_t *data[4], int line_size[4])
+bool H264Encoder::SetOriginData(uint8_t *data[4], uint32_t line_size[4])
 {
 	if (__frame == NULL)
 		goto error;

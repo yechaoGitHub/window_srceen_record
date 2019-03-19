@@ -10,8 +10,13 @@ extern "C"
 #include "libavformat/avformat.h"
 }
 
-#pragma comment (lib, "libavcodec.lib")
-#pragma comment (lib, "libavformat.lib")
+#ifdef _DEBUG
+	#pragma comment (lib, "libavcodecd.lib")
+	#pragma comment (lib, "libavformatd.lib")
+#else // DEBUG
+	#pragma comment (lib, "libavcodec.lib")
+	#pragma comment (lib, "libavformat.lib")
+#endif
 
 struct H264EncodeParameter : public EncodeParameter
 {
@@ -35,7 +40,7 @@ public:
 
 	bool Initial();
 	bool SetEncoderParameter(const H264EncodeParameter *parameter);
-	bool SetOriginData(uint8_t *data[4], int line_size[4]);
+	bool SetOriginData(uint8_t *data[4], uint32_t line_size[4]);
 	bool Encode();
 	bool GetEncodeData(void *data, int *size);
 	bool ReleaseEncodeData();

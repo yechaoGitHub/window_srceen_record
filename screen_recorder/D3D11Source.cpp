@@ -104,7 +104,7 @@ error:
 	return false;
 }
 
-bool D3D11Source::GetData(uint8_t *data[4], int linesize[4])
+bool D3D11Source::GetData(uint8_t *data[4], uint32_t linesize[4])
 {
 	static D3D11_MAPPED_SUBRESOURCE map = { 0 };
 
@@ -123,19 +123,23 @@ bool D3D11Source::ReleaseData()
 	return true;
 }
 
-bool D3D11Source::GetSize(uint32_t *width, uint32_t *height)
+bool D3D11Source::GetScreenSize(uint32_t &width, uint32_t &height)
 {
-	D3D11_TEXTURE2D_DESC tex_desc = { 0 };
-
-	if (__texture_cpoy == NULL)
+	if (__output == nullptr)
 		return false;
 
-	__texture_cpoy->GetDesc(&tex_desc);
-	
-	*width = tex_desc.Width;
-	*height = tex_desc.Height;
-
-	return true;
+	DXGI_OUTPUT_DESC desc = { 0 };
+	HRESULT hr = __output->GetDesc(&desc);
+	if (SUCCEEDED(hr)) 
+	{
+		width = desc.DesktopCoordinates.left = desc.DesktopCoordinates.right;
+		height = desc.DesktopCoordinates.bottom - desc.DesktopCoordinates.top;
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 
 bool D3D11Source::Release()

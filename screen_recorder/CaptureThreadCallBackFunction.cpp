@@ -1,4 +1,4 @@
-#include "MainThread.h"
+#include "ScreenCapture.h"
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include "RgbToNv12.cpp"
@@ -12,37 +12,35 @@
 
 void CaptrueThreadFunction(void *user_data, uint64_t cur_time)
 {
-	MainThread *thread = reinterpret_cast<MainThread*>(user_data);
-	D3D11Source &d3d_src = *thread->__source;
-	OpenglConvertRgbToNV12 &convert = thread->__convert;
-	H264Encoder	&encoder = *thread->__encoder;
-
-	static uint8_t *data[4] = { 0 };
-	static int line_size[4] = { 0 };
-	static uint8_t *nv12_data[4] = { 0 };
-	static int nv12_line_size[4] = { 0 };
-	static void *_data_ = NULL;
-	static int size = 0;
-
-	static int yuv_len = (1920 * 1080 * 3) / 2;
-	static unsigned char *buff = nullptr;
-	if (buff == nullptr) 
-	{
-		buff = new unsigned char[yuv_len];
-	}
+	static ScreenCapture *captrue = reinterpret_cast<ScreenCapture*>(user_data);
+	static uint8_t **nv12_line_data = captrue->__nv12_line_data;
+	static uint32_t *nv12_linesize = captrue->__nv12_line_size;
+	uint32_t &screen_width = captrue->__screen_width;
+	uint32_t &screen_height = captrue->__screen_height;
+	H264Encoder	&encoder = captrue->__encoder;
+	D3D11Source &d3d_src = captrue->__source;
+	OpenglConvertRgbToNV12 &convert = captrue->__convert;
+	void *&nv12_buffer = captrue->__nv12_buffer;
+	
+	static uint8_t *src_data[4] = { 0 };
+	static uint32_t src_linesize[4] = { 0 };
 
 	if (d3d_src.Capture()) 
 	{
-		d3d_src.GetData(data, line_size);
-		convert.ConvertRgbToNV12(data[0], 1920, 1080, buff);
-		nv12_data[0] = buff;
-		nv12_line_size[0] = 1920;
-		nv12_data[1] = buff + 1920 * 1080;
-		nv12_line_size[1] = 1920;
+		captrue->__RecordTimeStart(ScreenCapture::GET_SRC_DATA);
+		d3d_src.GetData(src_data, src_linesize);
+		captrue->__RecordTimeEnd(ScreenCapture::GET_SRC_DATA);
 
-		encoder.SetOriginData(nv12_data, nv12_line_size);
+		captrue->__RecordTimeStart(ScreenCapture::CONVERT_TO_NV12);
+		convert.ConvertRgbToNV12(src_data[0], screen_width, screen_height, nv12_buffer, nv12_line_data, nv12_linesize);
+		captrue->__RecordTimeEnd(ScreenCapture::CONVERT_TO_NV12);
+
+		captrue->__RecordTimeStart(ScreenCapture::ENCODE);
+		encoder.SetOriginData(nv12_line_data, nv12_linesize);
 		encoder.Encode();
-		encoder.GetEncodeData(_data_, &size);
+		captrue->__RecordTimeEnd(ScreenCapture::ENCODE);
+
+		//encoder.GetEncodeData(_data_, &size);
 
 		encoder.ReleaseEncodeData();
 		d3d_src.ReleaseData();
@@ -51,7 +49,12 @@ void CaptrueThreadFunction(void *user_data, uint64_t cur_time)
 
 void ShowFps(void *user_data, uint64_t pass_second_ns, uint64_t fps, uint64_t cur_time) 
 {
-	std::cout << fps << "\n";
+	static ScreenCapture *captrue = reinterpret_cast<ScreenCapture*>(user_data);
+
+	std::cout << "FPS:"  << fps << "\n";
+	std::cout << "src_data:" << captrue->__time_src_data / 1000000 << "\n";
+	std::cout << "convert:" << captrue->__time_convert / 1000000 << "\n";
+	std::cout << "encode:" << captrue->__time_encode / 1000000 << "\n";
 }
 
 //unsigned __stdcall CaptrueThreadFunction(void *ptr_mian_thread_) 

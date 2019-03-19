@@ -152,7 +152,8 @@ bool OpenglConvertRgbToNV12::Initial()
 	return true;
 }
 
-bool OpenglConvertRgbToNV12::ConvertRgbToNV12(void *data, int width, int height, void *result)
+bool OpenglConvertRgbToNV12::ConvertRgbToNV12(void *data, int width, int height, void *result, uint8_t *nv12_data[4], uint32_t linesize[4])
+
 {
 	__FillTextureCroodBuff(width, height);
 	__ConvertRgbToY(data, width, height, result);
@@ -161,6 +162,14 @@ bool OpenglConvertRgbToNV12::ConvertRgbToNV12(void *data, int width, int height,
 	uv_start += height * width;
 	__ConvertRgbToUV(data, width, height, uv_start);
 
+	nv12_data[0] = reinterpret_cast<uint8_t*>(result);
+	linesize[0] = width;
+	nv12_data[1] = reinterpret_cast<uint8_t*>(uv_start);
+	linesize[1] = width;
+	nv12_data[2] = 0;
+	linesize[2] = 0;
+	nv12_data[3] = 0;
+	linesize[3] = 0;
 	return true;
 }
 

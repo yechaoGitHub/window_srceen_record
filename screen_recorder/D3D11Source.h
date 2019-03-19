@@ -18,10 +18,10 @@ public:
 
 	bool Initial();
 	bool Capture();
-	bool GetData(uint8_t *data[4], int linesize[4]);
-	bool GetSize(uint32_t *width, uint32_t *height);
+	bool GetData(uint8_t *data[4], uint32_t linesize[4]);
 	bool ReleaseData();
 	bool Release();
+	bool GetScreenSize(uint32_t &width, uint32_t &height);
 
 private:
 	uint32_t __width;

@@ -2,7 +2,11 @@
 #include <GL/glew.h>
 #include "SimpleShader.h"
 
-#pragma comment(lib, "glew32.lib")
+#ifdef _DEBUG
+	#pragma comment(lib, "glew32d.lib")
+#else
+	#pragma comment(lib, "glew32.lib")
+#endif
 
 class OpenglConvertRgbToNV12
 {
@@ -12,7 +16,7 @@ public:
 
 	bool Initial();
 
-	bool ConvertRgbToNV12(void *data, int width, int height, void *result);
+	bool ConvertRgbToNV12(void *data, int width, int height, void *result, uint8_t *nv12_data[4], uint32_t linesize[4]);
 
 private:
 	GLuint __vbo;
