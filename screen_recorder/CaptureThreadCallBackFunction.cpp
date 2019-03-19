@@ -1,6 +1,7 @@
 #include "MainThread.h"
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include "RgbToNv12.cpp"
 
 //#include "assert.h"
 //#include "Opengl.h"
@@ -12,15 +13,39 @@
 void CaptrueThreadFunction(void *user_data, uint64_t cur_time)
 {
 	MainThread *thread = reinterpret_cast<MainThread*>(user_data);
-	uint8_t *data[4] = { 0 };
-	int line_size[4] = { 0 };
-	int yuv_len = (1920 * 1080 * 3) / 2;
-	unsigned char *buff = new unsigned char[yuv_len];
+	D3D11Source &d3d_src = *thread->__source;
+	OpenglConvertRgbToNV12 &convert = thread->__convert;
+	H264Encoder	&encoder = *thread->__encoder;
 
-	if (thread->__source->Capture()) 
+	static uint8_t *data[4] = { 0 };
+	static int line_size[4] = { 0 };
+	static uint8_t *nv12_data[4] = { 0 };
+	static int nv12_line_size[4] = { 0 };
+	static void *_data_ = NULL;
+	static int size = 0;
+
+	static int yuv_len = (1920 * 1080 * 3) / 2;
+	static unsigned char *buff = nullptr;
+	if (buff == nullptr) 
 	{
-		thread->__source->GetData(data, line_size);
-		thread->__convert.ConvertRgbToNV12(data[0], 1920, 1080, buff);
+		buff = new unsigned char[yuv_len];
+	}
+
+	if (d3d_src.Capture()) 
+	{
+		d3d_src.GetData(data, line_size);
+		convert.ConvertRgbToNV12(data[0], 1920, 1080, buff);
+		nv12_data[0] = buff;
+		nv12_line_size[0] = 1920;
+		nv12_data[1] = buff + 1920 * 1080;
+		nv12_line_size[1] = 1920;
+
+		encoder.SetOriginData(nv12_data, nv12_line_size);
+		encoder.Encode();
+		encoder.GetEncodeData(_data_, &size);
+
+		encoder.ReleaseEncodeData();
+		d3d_src.ReleaseData();
 	}
 }
 
