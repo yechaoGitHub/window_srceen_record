@@ -18,9 +18,6 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MainThread.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="D3D11Source.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
     <ClInclude Include="FpsTimer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ScreenCapture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -60,9 +60,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="D3D11Source.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MainThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="H264Encoder.cpp">
@@ -78,6 +75,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CaptureThreadCallBackFunction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
