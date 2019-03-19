@@ -184,14 +184,14 @@ bool OpenglConvertRgbToNV12::__ConvertRgbToY(void *data, int width, int height, 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(__tex_crood), __tex_crood, GL_STATIC_DRAW);
 
 	glBindTexture(GL_TEXTURE_RECTANGLE, __texture_frame);
-	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glBindTexture(GL_TEXTURE_RECTANGLE, 0);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, __rbo);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 
 	glBindTexture(GL_TEXTURE_RECTANGLE, __texture_src);
-	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, __fbo);
 
@@ -225,14 +225,14 @@ bool OpenglConvertRgbToNV12::__ConvertRgbToUV(void *data, int width, int height,
 	glBufferData(GL_ARRAY_BUFFER, sizeof(__tex_crood), __tex_crood, GL_STATIC_DRAW);
 
 	glBindTexture(GL_TEXTURE_RECTANGLE, __texture_frame);
-	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, scale_width, scale_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, scale_width, scale_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glBindTexture(GL_TEXTURE_RECTANGLE, 0);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, __rbo);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, scale_width, scale_height);
 
 	glBindTexture(GL_TEXTURE_RECTANGLE, __texture_src);
-	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, __fbo);
 
