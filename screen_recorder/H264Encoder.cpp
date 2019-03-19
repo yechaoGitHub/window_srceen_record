@@ -6,7 +6,6 @@ H264Encoder::H264Encoder() :
 	__codec(NULL),
 	__codec_ctx(NULL),
 	__fmt_ctx(NULL),
-	__video_stream(NULL),
 	__frame(NULL),
 	__pkt(NULL),
 	__recording(NULL),
@@ -74,6 +73,8 @@ bool H264Encoder::SetEncoderParameter(const H264EncodeParameter *parameter)
 	__frame->width	= __codec_ctx->width;
 	__frame->height = __codec_ctx->height;
 
+	__paramter = *parameter;
+
 	return true;
 
 error:
@@ -98,7 +99,8 @@ bool H264Encoder::Encode()
 	if (__frame == NULL || __codec_ctx == NULL)
 		return false;
 
-	__frame->pts = __pts_count * (__video_st->time_base.den) / ((__video_st->time_base.num) * 25);
+	if (__ofmt_ctx != NULL)
+		__frame->pts = av_rescale_q(__pts_count, __codec_ctx->time_base, __video_st->time_base);
 
 	int ret = avcodec_send_frame(__codec_ctx, __frame);
 	if (ret < 0)

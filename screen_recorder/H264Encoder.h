@@ -10,8 +10,8 @@ extern "C"
 #include "libavformat/avformat.h"
 }
 
-#pragma comment (lib, "libavcodecd.lib")
-#pragma comment (lib, "libavformatd.lib")
+#pragma comment (lib, "libavcodec.lib")
+#pragma comment (lib, "libavformat.lib")
 
 struct H264EncodeParameter : public EncodeParameter
 {
@@ -48,7 +48,6 @@ private:
 	AVCodec				*__codec;
 	AVCodecContext		*__codec_ctx;
 	AVFormatContext		*__fmt_ctx;
-	AVStream			*__video_stream;
 	AVFrame				*__frame;
 	AVPacket			*__pkt;
 	AVFormatContext		*__ofmt_ctx;
