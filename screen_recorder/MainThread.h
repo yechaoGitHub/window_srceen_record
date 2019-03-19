@@ -16,7 +16,7 @@ public:
 
 	bool Run();
 
-private:
+public:
 	FpsTimer				__timer;
 	D3D11Source				*__source;
 	H264Encoder				*__encoder;
