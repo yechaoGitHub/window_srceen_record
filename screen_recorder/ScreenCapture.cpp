@@ -1,20 +1,20 @@
-#include "MainThread.h"
+#include "ScreenCapture.h"
 #include <process.h>
 
 extern void __stdcall CaptrueThreadFunction(void *user_data, uint64_t cur_time);
 extern void __stdcall ShowFps(void *user_data, uint64_t pass_second_ns, uint64_t fps, uint64_t cur_time);
 
-MainThread::MainThread()
+ScreenCapture::ScreenCapture()
 {
 
 }
 
-MainThread::~MainThread() 
+ScreenCapture::~ScreenCapture() 
 {
 
 }
 
-void MainThread::Initial()
+void ScreenCapture::Initial()
 {
 	__source = new D3D11Source();
 	__source->Initial();
@@ -42,7 +42,7 @@ void MainThread::Initial()
 
 }
 
-bool MainThread::Run()
+bool ScreenCapture::Run()
 {
 	__timer.RunLoop();
 	return true;
