@@ -25,7 +25,7 @@ void MainThread::Initial()
 	H264EncodeParameter par;
 	par.width = 1920;
 	par.height = 1080;
-	par.bit_rate = 400000;
+	par.bit_rate = 4000000;
 	par.time_base.num = 1;
 	par.time_base.den = 25;
 	par.gop_size = 10;
@@ -35,7 +35,7 @@ void MainThread::Initial()
 	__encoder->SetEncoderParameter(&par);
 
 	__timer.Initial();
-	__timer.SetLoop(CaptrueThreadFunction, 60, this);
+	__timer.SetLoop(CaptrueThreadFunction, 25, this);
 	__timer.SetSecondPassCallBack(ShowFps, this);
 
 	__convert.Initial();
@@ -45,7 +45,6 @@ void MainThread::Initial()
 bool MainThread::Run()
 {
 	__timer.RunLoop();
-
 	return true;
 }
 
