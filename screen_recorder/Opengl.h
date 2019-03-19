@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include "SimpleShader.h"
 
-#pragma comment(lib, "glew32d.lib")
+#pragma comment(lib, "glew32.lib")
 
 class OpenglConvertRgbToNV12
 {
