@@ -4,7 +4,7 @@ OutputYuv::OutputYuv()
 {
 }
 
-OutputYuv ::~OutputYuv()
+OutputYuv::~OutputYuv()
 {
 }
 
