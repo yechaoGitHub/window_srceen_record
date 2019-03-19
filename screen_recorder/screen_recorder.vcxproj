@@ -159,7 +159,7 @@
     <ClInclude Include="Opengl.h" />
     <ClInclude Include="OutputYuv.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="MainThread.h" />
+    <ClInclude Include="ScreenCapture.h" />
     <ClInclude Include="RgbToNv12.cpp" />
     <ClInclude Include="RgbToNv12.h" />
     <ClInclude Include="SimpleShader.h" />
@@ -178,7 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="screen_recorder.cpp" />
-    <ClCompile Include="MainThread.cpp" />
+    <ClCompile Include="ScreenCapture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
